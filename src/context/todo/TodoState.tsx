@@ -34,9 +34,9 @@ export const reducer = (
     }
     case Types.TOGGLE_TODO: {
       const todos = state.todos.map((el) => {
-        if (el.id !== action.payload) {
+        if (el.id !== action.payload.id) {
           return { ...el };
-        } else return { ...el, ...{ isComplete: !el.isComplete } };
+        } else return { ...el, ...{ isComplete: action.payload.value } };
       });
       return { ...state, todos };
     }
@@ -126,10 +126,19 @@ export const TodoState: React.FC<{ children: ReactElement }> = ({
         body: JSON.stringify({text: value})
       });
 
-    dispatch({ type: Types.EDIT_TODO, payload: { id, value, isComplete } });
+    dispatch({ type: Types.EDIT_TODO, payload: { id, value} });
   };
-  const toggleTodo: TodoContextType["toggleTodo"] = (id: string) =>
-    dispatch({ type: Types.TOGGLE_TODO, payload: id });
+  const toggleTodo: TodoContextType["toggleTodo"] = async (id: string, isComplete: boolean) =>{
+    const response = await fetch(`${BASE_URL}/${id}.json`, {
+      method: "PATCH",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({isComplete})
+    });
+
+  
+    dispatch({ type: Types.TOGGLE_TODO, payload: {id, value: isComplete} })
+  
+  }
 
   const setTodos = useCallback(async () => {
     try {

@@ -23,7 +23,7 @@ export const Todo: React.FC<TodoProps> = ({item: {isComplete, id, text}, toggleT
                     trackColor={{ false: "#000", true:" #664B86"}}
                     thumbColor={isComplete ?  COLORS.PRIMARY : "#664B86"}
                     ios_backgroundColor="#3e3e3e"
-                    onValueChange={()=>toggleTodo(id)}
+                    onValueChange={()=>toggleTodo(id, !isComplete)}
                     value={isComplete}
                  />
               </View>

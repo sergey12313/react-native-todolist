@@ -27,7 +27,10 @@ export type RemoveAction = {
 }
 export type ToggleAction = {
     type: Types.TOGGLE_TODO,
-    payload: string
+    payload: {
+        id: string,
+        value: boolean
+    }
 }
 export type EditAction = {
     type: Types.EDIT_TODO,
@@ -62,7 +65,7 @@ export interface TodoContextType {
     addTodo: (todo: TodoItem)=> void
     removeTodo: (id: string)=> void
     editTodo: (id: string, value: string, isComplete: boolean)=> void
-    toggleTodo:  (id: string)=> void
+    toggleTodo:  (id: string, value: boolean)=> void
 }
 export interface ActiveItemContextType {
     active: null | string;
